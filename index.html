@@ -3,10 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>To Do List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <header class="header">
+      <div class="header-elements">
+        <h1 class="title">To Do</h1>
+        <img
+          id="switch-mode"
+          class="mode"
+          src="images/icon-moon.svg"
+          alt="Change to dark mode"
+        />
+      </div>
+    </header>
+    <main class="main">
+      <form id="form" class="form">
+        <input
+          id="newtask"
+          name="newtask"
+          class="task type-task"
+          type="text"
+          placeholder="Create a new task..."
+        />
+      </form>
+      <div class="task-options-box">
+        <div class="tasks-numbers-box">
+          <div id="tasks-box" class="tasks-box"></div>
+          <div class="tasks-info task">
+            <span id="task-number" class="number-tasks">1 items left</span>
+            <span id="clear-tasks" class="clear-completed"
+              >Clear Completed Tasks</span
+            >
+          </div>
+        </div>
+        <div class="options">
+          <span id="all" class="option all">All</span>
+          <span id="active" class="option">Active</span>
+          <span id="completed" class="option">Completed</span>
+        </div>
+      </div>
+    </main>
     <script src="js/scripts.js"></script>
   </body>
 </html>
