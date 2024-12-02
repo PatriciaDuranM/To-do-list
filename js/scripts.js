@@ -1,8 +1,5 @@
 const switchElement = document.getElementById("switch-mode");
 const tasksBoxElement = document.getElementById("tasks-box");
-const checkboxElement = document.getElementById("checkbox");
-const taskTextElement = document.getElementById("task-text");
-const cancelElement = document.getElementById("cancel-task");
 const numberElement = document.getElementById("task-number");
 const clearElement = document.getElementById("clear-tasks");
 const allElement = document.getElementById("all");
@@ -13,7 +10,13 @@ const formElement = document.getElementById("form");
 
 /*cambio modo*/
 const switchMode = () => {
-  document.body.classList.toggle("dark");
+  if (document.body.classList.contains("dark")) {
+    document.body.classList.remove("dark");
+    switchElement.src = "./images/icon-moon.svg";
+  } else {
+    document.body.classList.add("dark");
+    switchElement.src = "./images/icon-sun.svg";
+  }
 };
 
 switchElement.addEventListener("click", switchMode);
@@ -53,6 +56,27 @@ const createTask = (event) => {
 
 formElement.addEventListener("submit", createTask);
 
+/*tarea completada*/
+
+const completedTask = (id) => {
+  const taskFounded = TASKS.find((task) => task.id === id);
+  if (taskFounded.completed === false) {
+    taskFounded.completed = true;
+  } else {
+    taskFounded.completed = false;
+  }
+  printNewTask(TASKS);
+};
+
+/*borrar tareas completadas*/
+
+const clearCompletedTasks = () => {
+  TASKS = TASKS.filter((task) => task.completed === false);
+  printNewTask(TASKS);
+};
+
+clearElement.addEventListener("click", clearCompletedTasks);
+
 /*creación nueva tarea*/
 
 const printNewTask = (tasks) => {
@@ -71,6 +95,8 @@ const printNewTask = (tasks) => {
     newCheckbox.type = "checkbox";
     newCheckbox.checked = task.completed;
     newCheckbox.id = task.id;
+
+    newCheckbox.addEventListener("change", () => completedTask(task.id));
 
     /*texto de la tarea*/
     const newTaskText = document.createElement("label");
@@ -91,8 +117,6 @@ const printNewTask = (tasks) => {
   taskCounter();
 };
 
-/*tarea completada*/
-
 /*eliminar tarea*/
 const deleteTask = (taskId) => {
   TASKS = TASKS.filter((task) => task.id !== taskId);
@@ -105,8 +129,59 @@ const taskCounter = () => {
   numberElement.textContent = `${incomplete.length} items left`;
 };
 
+/*filtros */
+
+const showAll = () => {
+  printNewTask(TASKS);
+  activeElement.classList.remove("all");
+  allElement.classList.add("all");
+  completedElement.classList.remove("all");
+};
+allElement.addEventListener("click", showAll);
+
+/*tareas sin completar*/
+
+const showIncompleted = () => {
+  const incomplete = TASKS.filter((task) => task.completed === false);
+  printNewTask(incomplete);
+  activeElement.classList.add("all");
+  allElement.classList.remove("all");
+  completedElement.classList.remove("all");
+};
+
+activeElement.addEventListener("click", showIncompleted);
+
+/*tareas completas*/
+
+const showCompleted = () => {
+  const completedTasks = TASKS.filter((task) => task.completed === true);
+  printNewTask(completedTasks);
+  activeElement.classList.remove("all");
+  allElement.classList.remove("all");
+  completedElement.classList.add("all");
+};
+
+completedElement.addEventListener("click", showCompleted);
+
 printNewTask(TASKS);
-/*
+
+/*const selectSugarLess = () => {
+  if (checkboxElement.checked) {
+    const sugarLessProducts = productData.filter(
+      (product) => product.sugarless
+    );
+    printProductTemplate(sugarLessProducts);
+  } else {
+    printProductTemplate(productData);
+  }
+};
+
+checkboxElement.addEventListener("change", selectSugarLess);
+
+
+
+
+
 /*
 <div id="tasks-box" class="tasks-box">
             <div id="task" class="exampletask task">
